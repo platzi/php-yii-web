@@ -15,8 +15,42 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     public $accessToken;
     */
 
+    public $password_repeats;
+    public $email;
+
     public static function tableName() {
       return 'users';
+    }
+
+    public function rules() {
+      return [
+        [['username', 'password'], 'required'],
+        ['username', 'filter', 'filter' => function($v) {
+          $v = ltrim(rtrim($v));
+          $v = strtolower($v);
+          return $v;
+        }],
+        ['username', 'unique'],
+        ['username', 'string', 'length' => [3, 100]],
+        ['password', 'compare', 'compareAttribute' => 'password_repeats'],
+        ['password_repeats', 'default'],
+        ['bio', 'default'],
+        ['email', 'email'],
+        //['password', 'required'],
+      ];
+    }
+
+    public function attributeLabels() {
+      return [
+        'username' => 'usuario',
+      ];
+    }
+
+    public function attributeHints() {
+    return [
+      'username' => 'deberá ser único en el sistema',
+      'password_repeats' => 'tiene que ser igual al anterior',
+    ];
     }
 
     /**
