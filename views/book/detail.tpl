@@ -1,4 +1,5 @@
 {use class="yii\helpers\Html"}
+{use class="yii\widgets\ActiveForm" type="block"}
 {use class="Yii"}
 
 {title}{$book->title}{/title}
@@ -8,9 +9,18 @@
 
 {if Yii::$app->user->identity->hasBook($book->id)}
   {Html::a('ya no lo tengo')}
-  //formulario -> ['book/score']
-  // 1-5
-  // cierro formulario
+  {ActiveForm id="new-score" assign="forma" action=['book/score']}
+    {$forma->field($book_score, 'score')
+      ->dropDownList([
+        1 => '⭐️',
+        2 => '⭐️⭐️',
+        3 => '⭐️⭐️⭐️',
+        4 => '⭐️⭐️⭐️⭐️',
+        5 => '⭐️⭐️⭐️⭐️⭐️'
+      ])}
+    {$forma->field($book_score, 'book_id')->hiddenInput()->label(false)}
+    <input type="submit" value="calificar">
+  {/ActiveForm}
 {else}
   <p>
     {Html::a('tengo este libro',
