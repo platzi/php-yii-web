@@ -12,3 +12,4 @@ hola {Yii::$app->user->identity->username} 👋
 
 
 <p>Hay {$book_count} libros en el sistema</p>
+<p>{Html::a('crear libro', ['book/new'])}</p>
