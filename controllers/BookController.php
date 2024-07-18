@@ -20,7 +20,7 @@ class BookController extends Controller {
       Yii::$app->session->setFlash('success', 'ese libro no existe');
       return $this->goHome();
     }
-    return $book->toString();
+    return $this->render('detail.tpl', ['book' => $book]);
   }
 
   public function actionNew() {
