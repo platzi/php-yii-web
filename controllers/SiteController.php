@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Book;
+use app\models\Author;
 
 class SiteController extends Controller
 {
@@ -63,8 +64,11 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $book_count = Book::find()->count();
-        return $this->render('index.tpl',
-          ['book_count' => $book_count]);
+        $author_count = Author::find()->count();
+        return $this->render('index.tpl', [
+          'book_count' => $book_count,
+          'author_count' => $author_count,
+        ]);
     }
 
     /**

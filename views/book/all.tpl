@@ -1,8 +1,6 @@
 {use class="yii\helpers\Html"}
 
-<h1>todos los libros
-  {if $titulo > 2}muchos{else}pocos{/if}
-</h1>
+<h1>todos los libros</h1>
 
 <ol>
   {foreach $books as $book}
