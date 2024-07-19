@@ -7,7 +7,10 @@
 {if Yii::$app->user->isGuest}
   hola invitado, {Html::a('login', ['site/login'])}
 {else}
-  hola {Yii::$app->user->identity->username} 👋
+  {assign "user" Yii::$app->user->identity}
+  <p>hola {$user->username} 👋</p>
+  <p>has votado {$user->votesCount} veces y
+    promedio de {$user->votesAvg}</p>
 {/if}
 
 

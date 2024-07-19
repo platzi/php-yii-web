@@ -149,4 +149,25 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
       }
       return true;
     }
+
+    public function getVotes() {
+      return $this->hasMany(BookScore::class, ['user_id' => 'user_id'])->all();
+    }
+
+    public function getVotesCount() {
+      return count($this->votes);
+    }
+
+    public function getVotesAvg() {
+      $i = 0;
+      $sum = 0;
+      foreach($this->votes as $vote) {
+        $i++;
+        $sum += $vote->score;
+      }
+      if($i == 0) {
+        return "sin votos";
+      }
+      return sprintf("%0.2f", $sum/$i);
+    }
 }

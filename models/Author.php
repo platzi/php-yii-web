@@ -70,7 +70,6 @@ class Author extends ActiveRecord {
   }
 
   public static function getNationalitiesList() {
-    sort(self::$nationalities);
     return array_merge(
       ['--' => 'nacionalidad'],
       self::$nationalities

@@ -7,6 +7,8 @@
 
 <p>Un libro de {$book->author->name}.</p>
 
+<p>El promedio de este libro es de: {$book->getScore()}</p>
+
 {if Yii::$app->user->identity->hasBook($book->id)}
   {Html::a('ya no lo tengo')}
   {ActiveForm id="new-score" assign="forma" action=['book/score']}
