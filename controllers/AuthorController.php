@@ -23,10 +23,29 @@ class AuthorController extends Controller {
         ->where(['like', 'name', $search])
         ->all();
     } else {
-      $authors = Author::find()->all();
+      $authors = Author::find()->orderBy('name')->all();
     }
 
-    return serialize($authors);
+    return $this->render('all.tpl', ['authors' => $authors]);
+  }
+
+  public function actionNew() {
+    if(Yii::$app->user->isGuest) {
+      return $this->goHome();
+    }
+
+    $author = new Author;
+    if($author->load(Yii::$app->request->post())) {
+      if($author->validate()) {
+        if($author->save()) {
+          Yii::$app->session->setFlash(
+            'success',
+            sprintf('%s ha sido guardado como autor', $author->name)
+          );
+        }
+      }
+    }
+    return $this->render('new.tpl', ['author' => $author]);
   }
 
 }

@@ -6,8 +6,44 @@ use yii\db\ActiveRecord;
 
 class Author extends ActiveRecord {
 
+  public static $nationalities =  [
+    'mx' => 'méxico',
+    'us' => 'estados unidos',
+    'ca' => 'canadá',
+    'co' => 'colombia',
+    'pe' => 'perú',
+    'ar' => 'argentina',
+    'es' => 'españa',
+    'de' => 'alemania',
+    'uk' => 'reino unido',
+    'gr' => 'grecia',
+    'it' => 'italia',
+    'fr' => 'francia',
+    'ie' => 'irlanda',
+  ];
+
   public static function tableName() {
     return 'authors';
+  }
+
+  public function rules() {
+    return [
+      ['name', 'required'],
+      ['name', 'filter', 'filter' => function($v) {
+        $v = trim($v);
+        $v = ucwords($v);
+        return $v;
+      }],
+      ['name', 'string', 'length' => [4, 100]],
+      ['nationality', 'default'],
+      ['nationality', 'filter', 'filter' => function($v) {
+        if($v == '--') {
+          $v = null;
+        }
+        return $v;
+      }],
+      ['nationality', 'string', 'length' => [2,2]],
+    ];
   }
 
   public function getId() {
@@ -31,5 +67,13 @@ class Author extends ActiveRecord {
       $ret[$author->id] = $author->name;
     }
     return $ret;
+  }
+
+  public static function getNationalitiesList() {
+    sort(self::$nationalities);
+    return array_merge(
+      ['--' => 'nacionalidad'],
+      self::$nationalities
+    );
   }
 }
